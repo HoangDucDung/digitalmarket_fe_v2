@@ -1,4 +1,4 @@
-# Hướng Dẫn Thiết Kế & Kiến Trúc Component (DigitalMarket V2)
+# Hướng Dẫn Thiết Kế & Kiến Trúc Component (DigitalMarket V2) 
 
 Tài liệu này tổng hợp toàn bộ quy chuẩn thiết kế (Design System) và kiến trúc tổ chức source code của dự án Digital Marketplace V2 dành cho Frontend.
 
