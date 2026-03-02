@@ -1,0 +1,153 @@
+// ============================================================
+// DIGITAL MARKETPLACE — Global Styles
+// ============================================================
+@use 'variable' as *;
+@use 'mixins' as *;
+@use 'animations';
+
+// ── TailwindCSS ──────────────────────────────────────────────
+@import 'tailwindcss';
+// ── Google Fonts ─────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+// ── Reset & Base ─────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $font-body;
+  font-size: $fs-base;
+  font-weight: $fw-regular;
+  line-height: $lh-normal;
+  color: $text-primary;
+  background-color: $bg-dark;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+// ── Typography ───────────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-heading;
+  font-weight: $fw-bold;
+  line-height: $lh-tight;
+  color: $text-primary;
+}
+
+h1 { font-size: $fs-3xl; }
+h2 { font-size: $fs-2xl; }
+h3 { font-size: $fs-xl; }
+h4 { font-size: $fs-lg; }
+h5 { font-size: $fs-md; }
+h6 { font-size: $fs-base; }
+
+p {
+  color: $text-secondary;
+  line-height: $lh-relaxed;
+}
+
+a {
+  color: $primary-light;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+// ── Links & Buttons ──────────────────────────────────────────
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: $font-body;
+}
+
+input, textarea, select {
+  font-family: $font-body;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+// ── Scrollbar ────────────────────────────────────────────────
+body {
+  @include custom-scrollbar;
+}
+
+// ── Selection ────────────────────────────────────────────────
+::selection {
+  background: rgba($primary, 0.3);
+  color: $text-primary;
+}
+
+// ── Utilities ────────────────────────────────────────────────
+.container {
+  max-width: $container-max;
+  margin: 0 auto;
+  padding: 0 $space-md;
+
+  @include respond-above('xl') {
+    padding: 0 $space-xl;
+  }
+}
+
+.section {
+  padding: $space-2xl 0;
+
+  @include respond-to('md') {
+    padding: $space-xl 0;
+  }
+}
+
+.section-header {
+  @include flex-between;
+  margin-bottom: $space-lg;
+
+  .section-title {
+    @include section-title;
+    margin-bottom: 0;
+  }
+
+  .section-link {
+    @include flex-center;
+    gap: $space-xs;
+    color: $primary-light;
+    font-size: $fs-sm;
+    font-weight: $fw-medium;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $secondary;
+    }
+  }
+}
+
+.glass-panel {
+  @include glass;
+  border-radius: $radius-md;
+}

@@ -1,0 +1,55 @@
+# Tổng Quan Dự Án DigiMarket Frontend
+
+Dự án DigiMarket Frontend đã được xây dựng thành công theo ngôn ngữ thiết kế **Digital Neon** cao cấp, sử dụng Vue.js 3, Vite, SCSS và TypeScript. Dưới đây là tóm tắt những tính năng và lỗi đã được giải quyết trong quá trình phát triển.
+
+## 🎨 Giao Diện & Tính Năng Đã Hoàn Thiện
+
+1. **Kiến Trúc Component Rõ Ràng**:
+   - `MainLayout`: Bố cục chính chia làm 2 phần rõ rệt (Sidebar cố định bên trái, Nội dung linh hoạt bên phải).
+   - `TheSidebar`: Chứa menu điều hướng chính, thanh tìm kiếm hiển thị danh mục sản phẩm.
+   - `TheHeader`: Thanh điều hướng nhỏ hiển thị trên các thiết bị Mobile/Tablet.
+   - `TheFooter`: Chân trang với đầy đủ sơ đồ liên kết và thông tin liên hệ.
+   - **Các Base Components**: `AppButton`, `AppBadge`, `AppInput` được thiết kế có thể tái sử dụng cao.
+
+2. **Trang Chủ (Home Page) Hoành Tráng**:
+
+   ![Hero Slider](file:///C:/Users/FPTSHOP/.gemini/antigravity/brain/ff5ed1b6-5e4c-40ac-bd7e-52c53804f3a5/hero_section_1772462891639.png)
+
+   - **Hero Slider**: Băng chuyền trình chiếu tự động sử dụng Swiper, hiệu ứng mượt mà, nhấn mạnh các deal hot.
+   - **Feature Tags**: Các chính sách như "Giao hàng nhanh", "Hỗ trợ 24/7" trên một thanh giao diện Glassmorphism.
+   - **Danh Mục Sản Phẩm**: Lưới grid 6 cột phân chia các nhóm (Streaming, Gaming, Office 365,...) rõ ràng với icon SVG tinh tế.
+   
+   ![Products Grid](file:///C:/Users/FPTSHOP/.gemini/antigravity/brain/ff5ed1b6-5e4c-40ac-bd7e-52c53804f3a5/products_section_1772462901500.png)
+
+   - **Sản Phẩm Nổi Bật**: Lưới hiển thị 4 cột tuyệt đẹp, tích hợp nhãn trạng thái (`HOT`, `SALE`, v.v.), phần trăm giảm giá và hình thu nhỏ của sản phẩm.
+   - **Tin Tức Nổi Bật**: Giao diện hiển thị bài báo nổi bật với thiết kế phong cách "tạp chí số", có hiệu ứng bóng và bo góc nổi bậc.
+   
+   ![News Section](file:///C:/Users/FPTSHOP/.gemini/antigravity/brain/ff5ed1b6-5e4c-40ac-bd7e-52c53804f3a5/news_section_1772462911814.png)
+
+## 🐛 Các Lỗi Nghiêm Trọng Đã Được Xử Lý
+
+Trong quá trình phát triển, chúng ta đã gặp phải ba tình trạng kỹ thuật ảnh hưởng đến quá trình render giao diện. Tôi đã phân tích và giải quyết triệt để:
+
+### 1. SCSS Compilation Error & Scope Conflicts
+
+- **Vấn đề**: Việc sử dụng `@import` thay vì `@use` đối với một số mixin và biến SCSS (cũng như cảnh báo từ module Vite CSS injection) làm màn hình chủ gặp lỗi ngầm `500 Server Error`.
+- **Giải pháp**: Xây dựng lại cấu trúc [_variable.scss](file:///e:/tap_hoa_so/digitalmarket_fe_v2/src/assets/styles/_variable.scss) và [_mixins.scss](file:///e:/tap_hoa_so/digitalmarket_fe_v2/src/assets/styles/_mixins.scss), liên kết chúng qua [vite.config.ts](file:///e:/tap_hoa_so/digitalmarket_fe_v2/vite.config.ts) để tiêm (inject) chuẩn xác `$text-primary`, `$bg-dark` cho toàn cục mà không gây lỗi phân vùng modules.
+
+### 2. Fatal Compiler Crash vì hàm `darken()`
+
+- **Vấn đề**: File [AppButton.vue](file:///e:/tap_hoa_so/digitalmarket_fe_v2/src/components/base/AppButton.vue) chứa một hàm biên dịch cũ của Sass `$danger: darken($danger, 8%);`. Các phiên bản Dart Sass 3.0+ gần đây đã dừng hỗ trợ khiến việc render `HomePage` thất bại hoàn toàn ngay trong nội bộ Vue Router (dẫn tới hiện tượng `<router-view>` chỉ xuất hiện một `<main>` trắng).
+- **Giải pháp**: Thay thế hàm `darken` bằng một chuỗi màu định sẵn.
+
+### 3. Vụ Nổ Khung Flexbox (Infinite CSS Expansion)
+
+- **Vấn đề**: Các ô sản phẩm tại mục `FeaturedProducts` bị kéo giãn vô hạn tới width = 11,000,000 pixel thay vì 240px. Do dùng `grid-template-columns: repeat(4, 1fr)` bên trong một phần tử `flex: 1` không có điểm chặn.
+- **Giải pháp**: Đã áp dụng Fix Flexbox truyền thống `min-width: 0;` lên `.main-layout__content`. Kết quả là giao diện grid hiển thị một cách vô cùng hoàn hảo, các cột xếp đều tăm tắp đúng như screenshot thực tế!
+
+---
+
+> [!TIP]
+> **Hướng dẫn khởi chạy:**
+> Để tiếp tục phát triển giao diện hoặc bắt đầu build:
+>
+> 1. Chạy `npm run dev` để bật server dev.
+> 2. Truy cập `http://localhost:5173/` để xem thiết kế sống động của hệ thống!

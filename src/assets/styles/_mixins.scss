@@ -1,0 +1,122 @@
+// ============================================================
+// DIGITAL MARKETPLACE — SCSS Mixins
+// ============================================================
+@use 'variable' as *;
+
+// ── Responsive Breakpoints ───────────────────────────────────
+@mixin respond-to($bp) {
+  @if $bp == 'xs'  { @media (max-width: $bp-xs)  { @content; } }
+  @if $bp == 'sm'  { @media (max-width: $bp-sm)  { @content; } }
+  @if $bp == 'md'  { @media (max-width: $bp-md)  { @content; } }
+  @if $bp == 'lg'  { @media (max-width: $bp-lg)  { @content; } }
+  @if $bp == 'xl'  { @media (max-width: $bp-xl)  { @content; } }
+  @if $bp == '2xl' { @media (max-width: $bp-2xl) { @content; } }
+}
+
+@mixin respond-above($bp) {
+  @if $bp == 'sm'  { @media (min-width: $bp-sm)  { @content; } }
+  @if $bp == 'md'  { @media (min-width: $bp-md)  { @content; } }
+  @if $bp == 'lg'  { @media (min-width: $bp-lg)  { @content; } }
+  @if $bp == 'xl'  { @media (min-width: $bp-xl)  { @content; } }
+}
+
+// ── Glass Effect ─────────────────────────────────────────────
+@mixin glass($bg: $bg-glass, $blur: 12px) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid $border-color;
+}
+
+// ── Card Base ────────────────────────────────────────────────
+@mixin card-base {
+  background: $bg-card;
+  border-radius: $radius-md;
+  border: 1px solid $border-color;
+  transition: all $transition-base;
+}
+
+@mixin card-hover {
+  &:hover {
+    background: $bg-card-hover;
+    border-color: $border-light;
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+// ── Gradient Text ────────────────────────────────────────────
+@mixin gradient-text($gradient: $gradient-primary) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// ── Hover Lift ───────────────────────────────────────────────
+@mixin hover-lift($distance: -4px, $shadow: $shadow-lg) {
+  transition: transform $transition-base, box-shadow $transition-base;
+  &:hover {
+    transform: translateY($distance);
+    box-shadow: $shadow;
+  }
+}
+
+// ── Neon Glow ────────────────────────────────────────────────
+@mixin neon-glow($color: $primary, $intensity: 0.4) {
+  box-shadow: 0 0 15px rgba($color, $intensity),
+              0 0 30px rgba($color, $intensity * 0.5);
+}
+
+// ── Truncate Text ────────────────────────────────────────────
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// ── Scrollbar Custom ─────────────────────────────────────────
+@mixin custom-scrollbar($width: 6px, $track: transparent, $thumb: rgba(255,255,255,0.15)) {
+  &::-webkit-scrollbar { width: $width; }
+  &::-webkit-scrollbar-track { background: $track; }
+  &::-webkit-scrollbar-thumb {
+    background: $thumb;
+    border-radius: $radius-full;
+    &:hover { background: rgba(255,255,255,0.25); }
+  }
+  scrollbar-width: thin;
+  scrollbar-color: $thumb $track;
+}
+
+// ── Flex Center ──────────────────────────────────────────────
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// ── Section Title ────────────────────────────────────────────
+@mixin section-title {
+  font-family: $font-heading;
+  font-size: $fs-xl;
+  font-weight: $fw-bold;
+  color: $text-primary;
+  margin-bottom: $space-lg;
+
+  @include respond-above('lg') {
+    font-size: $fs-2xl;
+  }
+}
